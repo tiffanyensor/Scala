@@ -15,11 +15,12 @@ val data = spark.read.option("header", "true").option("inferSchema", "true").for
 data.printSchema()
 
 // Create a dataframe to hold the data for Linear regression
-// Use "Yearly Amount Spent" as the label and all other numerical fields as features
+// First column for the label (Yearly Amount Spent)
+// Second column for features (all other numerical columns)
 val df = (data.select(data("Yearly Amount Spent").as("label"), $"Avg Session Length", $"Time on App", $"Time on Website", $"Length of Membership"))
 df.printSchema()
 
-// Use VectorAssembler to put all independent variables into a single array within the dataframe
+// Use VectorAssembler to create the array of features
 val assembler = new VectorAssembler().setInputCols(Array("Avg Session Length", "Time on App", "Time on Website", "Length of Membership")).setOutputCol("features")
 val output = assembler.transform(df).select($"label", $"features")
 output.show()
@@ -28,7 +29,7 @@ output.show()
 val lr = new LinearRegression()
 val lrModel = lr.fit(output)
 
-// Print the coefficients and intercept for linear regression
+// Print the coefficients, intercept, and R^2 value
 val trainingSummary = lrModel.summary
 
 println("COEFFICIENTS", lrModel.coefficients)
