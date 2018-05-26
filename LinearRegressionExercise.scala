@@ -8,6 +8,7 @@ import org.apache.spark.ml.linalg.Vectors
 
 // Start Spark Session
 import org.apache.spark.sql.SparkSession
+val spark = SparkSession.builder().getOrCreate()
 
 // Read in the data from the "Clean-Ecommerce.csv" file
 val data = spark.read.option("header", "true").option("inferSchema", "true").format("csv").load("Clean-Ecommerce.csv")
