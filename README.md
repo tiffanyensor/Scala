@@ -1,2 +1,3 @@
-# Scala
-# Scala exercises and sample code
+Scala Exercises for "Scala and Spark for Big Data" udemy course
+
+
